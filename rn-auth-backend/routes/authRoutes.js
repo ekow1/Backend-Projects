@@ -1,5 +1,6 @@
 import express from 'express';
-import { register, login } from '../controllers/authController.js';
+import { register, login, logout } from '../controllers/authController.js';
+import verifyToken from '../middleware/verifyToken.js';
 
 const router = express.Router();
 
@@ -76,5 +77,42 @@ router.post('/register', register);
  *               $ref: '#/components/schemas/Error'
  */
 router.post('/login', login);
+
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Logged out successfully"
+ *                 instructions:
+ *                   type: string
+ *                   example: "Please remove the token from client storage"
+ *       401:
+ *         description: Unauthorized - Invalid or missing token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.post('/logout', verifyToken, logout);
 
 export default router;

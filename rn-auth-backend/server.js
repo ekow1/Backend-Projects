@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(cors(
     {
-        origin: ['http://10.0.2.2:5000',"http://192.168.117.54:5000"],
+        origin: ['http://10.0.2.2:5000', 'http://192.168.117.54:5000', 'http://localhost:5000'],
         credentials: true
     }
 ));
